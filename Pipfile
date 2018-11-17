@@ -6,8 +6,10 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 ipdb = "*"
+ipython = "*"
 
 [packages]
+python-docx = "*"
 
 [requires]
 python_version = "3.7"

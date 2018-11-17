@@ -1,0 +1,4 @@
+.pytest_cache/
+*.docx
+*.sublime-workspace
+.idea/
