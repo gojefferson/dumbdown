@@ -1,4 +1,12 @@
-from .dumbdown import DumbDown, Tree, extract_first_node, ParagraphNode, TextNode, ItalNode, StrongNode
+from dumbdown.dumbdown import (
+    DumbDown,
+    Tree,
+    extract_first_node,
+    ParagraphNode,
+    TextNode,
+    ItalNode,
+    StrongNode,
+)
 
 
 def test_converts_lines_to_p_tags():

@@ -48,7 +48,6 @@ def extract_first_node(input_string):
     strong = ReAdapter(STRONG_RE, input_string)
     ital = ReAdapter(ITAL_RE, input_string)
 
-    print("extract_first_node in normal module")
     if strong.start_index == 0:
         return StrongNode(content=strong.content), input_string[strong.end_index:]
 
@@ -79,9 +78,6 @@ class Node:
     def append_child(self, node):
         self.children.append(node)
 
-    def add_runs(self, p):
-        raise NotImplemented("Subclasses of Node must implement this add_run")
-
     def get_html(self):
         return "".join([child.get_html() for child in self.children])
 
@@ -89,75 +85,42 @@ class Node:
         return f"<{self.__class__.__name__} \"{self.content}\">"
 
 
-class RootNode(Node):
-
-    def write_to_doc(self, doc):
-        for child in self.children:
-            child.write_to_doc(doc)
-        return doc
-
-
 class TextNode(Node):
 
     is_leaf_node = True
-
-    def add_runs(self, p):
-        p.add_run(self.content)
-        return p
 
     def get_html(self):
         return self.content
 
 
-class ItalNode(Node):
+class ParentNode(Node):
 
-    def add_runs(self, p):
-        for child in self.children:
-            run = p.add_run(child.content)
-            run.italic = True
-            if type(child) is StrongNode:
-                run.bold = True
-        return p
+    parent_tag = "UNDEFINED"
 
     def get_html(self):
         child_contents = "".join([child.get_html() for child in self.children])
-        return f"<i>{child_contents}</i>"
+        return f"<{self.parent_tag}>{child_contents}</{self.parent_tag}>"
 
 
-class StrongNode(Node):
+class ItalNode(ParentNode):
 
-    def add_runs(self, p):
-        for child in self.children:
-            run = p.add_run(child.content)
-            run.bold = True
-            if type(child) is ItalNode:
-                run.italic = True
-        return p
-
-    def get_html(self):
-        child_contents = "".join([child.get_html() for child in self.children])
-        return f"<strong>{child_contents}</strong>"
+    parent_tag = "i"
 
 
-class ParagraphNode(Node):
+class StrongNode(ParentNode):
 
-    def write_to_doc(self, doc):
-        p = doc.add_paragraph()
-        for child in self.children:
-            p = child.add_runs(p)
+    parent_tag = "strong"
 
-    def get_html(self):
-        child_contents = "".join([child.get_html() for child in self.children])
-        return f"<p>{child_contents}</p>"
+
+class ParagraphNode(ParentNode):
+
+    parent_tag = "p"
 
 
 class Tree:
 
     def __init__(self):
-        self.root: RootNode = RootNode()
-
-    def append_to_doc(self, doc):
-        return self.root.write_to_doc(doc)
+        self.root = Node()
 
     def get_html(self):
         return self.root.get_html()
@@ -178,17 +141,3 @@ class DumbDown:
 
     def to_html(self):
         return self._tree.get_html()
-
-    def append_to_doc(self, doc):
-        return self._tree.append_to_doc(doc)
-
-
-if __name__ == "__main__":
-    document = Document()
-    _md = (
-        "this is a story about _Hans_\n"
-        "*he _IS_ a good dog!*\n"
-        "_but_ ... he can also _be *BAD*_\n"
-    )
-    document = DumbDown(md=_md).append_to_doc(document)
-    document.save('demo.docx')

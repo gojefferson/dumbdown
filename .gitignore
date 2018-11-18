@@ -1,4 +1,5 @@
 .pytest_cache/
-*.docx
 *.sublime-workspace
 .idea/
+out/
+__pycache__/

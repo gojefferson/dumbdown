@@ -1,6 +1,4 @@
-from docx import Document
-
-from dumbdown import (
+from .dumbdown import (
     Node,
     TextNode,
     StrongNode,
@@ -44,14 +42,14 @@ class DocxNode(Node):
                 self.append_child(node)
 
     def add_runs(self, p):
-        raise NotImplemented("Subclasses of Node must implement this add_run")
+        raise NotImplemented("Subclasses of DocxNode must implement `add_runs`")
 
 
 class DocxRootNode(DocxNode):
 
-    def write_to_doc(self, doc):
+    def write_to_doc(self, doc, paragraph_style=None):
         for child in self.children:
-            child.write_to_doc(doc)
+            child.write_to_doc(doc, paragraph_style)
         return doc
 
 
@@ -86,8 +84,10 @@ class DocxStrongNode(StrongNode, DocxNode):
 
 class DocxParagraphNode(ParagraphNode, DocxNode):
 
-    def write_to_doc(self, doc):
+    def write_to_doc(self, doc, paragraph_style=None):
         p = doc.add_paragraph()
+        if paragraph_style:
+            p.style = paragraph_style
         for child in self.children:
             p = child.add_runs(p)
 
@@ -97,8 +97,8 @@ class DocxTree(Tree):
     def __init__(self):
         self.root = DocxRootNode()
 
-    def append_to_doc(self, doc):
-        return self.root.write_to_doc(doc)
+    def append_to_doc(self, doc, paragraph_style=None):
+        return self.root.write_to_doc(doc, paragraph_style)
 
 
 class DocxDumbDown(DumbDown):
@@ -114,16 +114,27 @@ class DocxDumbDown(DumbDown):
             p = DocxParagraphNode(content=line)
             self._tree.root.append_child(p)
 
-    def append_to_doc(self, doc):
-        return self._tree.append_to_doc(doc)
+    def append_to_doc(self, doc, paragraph_style=None):
+        return self._tree.append_to_doc(doc, paragraph_style)
 
 
-if __name__ == "__main__":
-    document = Document()
-    _md = (
-        "this is a story about _Hans_\n"
-        "*he _IS_ a good dog!*\n"
-        "_but_ ... he can also _be *BAD*_\n"
-    )
-    document = DocxDumbDown(md=_md).append_to_doc(document)
-    document.save('demo.docx')
+def write_md_to_doc(document, md, strip_newlines=True, numbered=False):
+    if strip_newlines or numbered:
+        md = md.replace("\n", " ")
+
+    paragraph_style = None
+    if numbered:
+        paragraph_style = document.styles["List Paragraph"]
+
+    DocxDumbDown(md=md).append_to_doc(document, paragraph_style=paragraph_style)
+
+
+def confirm_styles_exist_in_document(document, styles):
+    missing = []
+    for style in styles:
+        try:
+            document.styles[style]
+        except KeyError:
+            missing.append(style)
+    if len(missing) > 0:
+        raise NotImplemented(f"Document is missing the following styles {', '.join(missing)}")
