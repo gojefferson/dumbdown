@@ -1,0 +1,62 @@
+[
+    {
+        "md": "This is one line\nThis is another",
+        "html": "<p>This is one line</p><p>This is another</p>"
+    },
+    {
+        "md": "*hans* and",
+        "html": "<p><strong>hans</strong> and</p>"
+    },
+    {
+        "md": "and ... *hans*!",
+        "html": "<p>and ... <strong>hans</strong>!</p>"
+    },
+    {
+        "md": "and ... !*hans*!",
+        "html": "<p>and ... !<strong>hans</strong>!</p>"
+    },
+    {
+        "md": " * not* and mr*hi*",
+        "html": "<p> * not* and mr*hi*</p>"
+    },
+    {
+        "md": "*hans* and *franz*",
+        "html": "<p><strong>hans</strong> and <strong>franz</strong></p>"
+    },
+    {
+        "md": "_hans_ and",
+        "html": "<p><i>hans</i> and</p>"
+    },
+    {
+        "md": " _ not_ and mr_hi_",
+        "html": "<p> _ not_ and mr_hi_</p>"
+    },
+    {
+        "md": "_hans_ and _franz_",
+        "html": "<p><i>hans</i> and <i>franz</i></p>"
+    },
+    {
+        "md": "*_hans_ and _franz_*",
+        "html": "<p><strong><i>hans</i> and <i>franz</i></strong></p>"
+    },
+    {
+        "md": "_*hans* and *franz*_",
+        "html": "<p><i><strong>hans</strong> and <strong>franz</strong></i></p>"
+    },
+    {
+        "md": "_*hans* is_\nstrong",
+        "html": "<p><i><strong>hans</strong> is</i></p><p>strong</p>"
+    },
+    {
+        "md": "_*hans*_",
+        "html": "<p><i><strong>hans</strong></i></p>"
+    },
+    {
+        "md": "_*hans_* **lu**",
+        "html": "<p>_*hans_* **lu**</p>"
+    },
+    {
+        "md": "*_hans_*",
+        "html": "<p><strong><i>hans</i></strong></p>"
+    }
+]

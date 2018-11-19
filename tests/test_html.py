@@ -1,3 +1,4 @@
+import json
 from dumbdown.dumbdown import (
     DumbDown,
     Tree,
@@ -9,74 +10,11 @@ from dumbdown.dumbdown import (
 )
 
 
-def test_converts_lines_to_p_tags():
-    md = "This is one line\nThis is another"
-    assert DumbDown(md).to_html() == "<p>This is one line</p><p>This is another</p>"
-
-
-def test_wraps_star_text_in_strong_easy():
-    md = "*hans* and"
-    assert DumbDown(md).to_html() == "<p><strong>hans</strong> and</p>"
-
-
-def test_wraps_star_text_in_strong_ending_in_punctuation():
-    md = "and ... *hans*!"
-    assert DumbDown(md).to_html() == "<p>and ... <strong>hans</strong>!</p>"
-
-
-def test_wraps_star_text_in_strong_starting_and_ending_in_punctuation():
-    md = "and ... !*hans*!"
-    assert DumbDown(md).to_html() == "<p>and ... !<strong>hans</strong>!</p>"
-
-
-def test_does_not_wrap_detached_stars_in_strong():
-    md = " * not* and mr*hi*"
-    assert DumbDown(md).to_html() == "<p> * not* and mr*hi*</p>"
-
-
-def test_wraps_star_text_in_strong_harder():
-    md = "*hans* and *franz*"
-    assert DumbDown(md).to_html() == "<p><strong>hans</strong> and <strong>franz</strong></p>"
-
-
-def test_wraps_underscore_text_in_i_easy():
-    md = "_hans_ and"
-    assert DumbDown(md).to_html() == "<p><i>hans</i> and</p>"
-
-
-def test_does_not_wrap_detached_underscores_in_i():
-    md = " _ not_ and mr_hi_"
-    assert DumbDown(md).to_html() == "<p> _ not_ and mr_hi_</p>"
-
-
-def test_wraps_underscore_text_in_i_harder():
-    md = "_hans_ and _franz_"
-    assert DumbDown(md).to_html() == "<p><i>hans</i> and <i>franz</i></p>"
-
-
-def test_handles_nested_formatting_strong_outer():
-    md = "*_hans_ and _franz_*"
-    assert DumbDown(md).to_html() == "<p><strong><i>hans</i> and <i>franz</i></strong></p>"
-
-
-def test_handles_nested_formatting_ital_outer():
-    md = "_*hans* and *franz*_"
-    assert DumbDown(md).to_html() == "<p><i><strong>hans</strong> and <strong>franz</strong></i></p>"
-
-
-def test_handles_nested_formatting_ital_outer_multiline():
-    md = "_*hans* is_\nstrong"
-    assert DumbDown(md).to_html() == "<p><i><strong>hans</strong> is</i></p><p>strong</p>"
-
-
-def test_handles_nested_formatting_exact_matching_ital():
-    md = "_*hans*_"
-    assert DumbDown(md).to_html() == "<p><i><strong>hans</strong></i></p>"
-
-
-def test_handles_nested_formatting_exact_matching_strong():
-    md = "*_hans_*"
-    assert DumbDown(md).to_html() == "<p><strong><i>hans</i></strong></p>"
+def test_json_examples():
+    with open("test_examples.json") as jsonfile:
+        examples = json.loads(jsonfile.read())
+        for example in examples:
+            assert DumbDown(example["md"]).to_html() == example["html"]
 
 
 def test_extract_first_node_gets_strong():

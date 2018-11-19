@@ -1,0 +1,70 @@
+version: 2
+jobs:
+  js-test:
+    resource_class: medium+
+    docker:
+      - image: circleci/node:10.0-browsers
+    steps:
+      - checkout
+      - run:
+          name: Update npm
+          command: |
+            sudo npm install -g npm@latest
+      - restore_cache:
+          key: cf-v4-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install node dependencies
+          command: |
+            sudo npm install -g yarn
+            yarn
+      - save_cache:
+          key: cf-v4-{{ checksum "yarn.lock" }}
+          paths:
+            - "~/.cache"
+      - run:
+          name: mocha tests
+          command: |
+            yarn run test
+
+  python-test:
+    resource_class: medium+
+    docker:
+      - image: circleci/python:3.7.0-node-browsers
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - checkout
+      - run:
+          name: Update npm
+          command: |
+            sudo npm install -g npm@latest
+      - restore_cache:
+          key: cf-v3-{{ checksum "~/api/Pipfile.lock" }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install node dependencies
+          command: |
+            sudo npm install -g yarn
+            yarn
+      - run:
+          name: Install python dependencies
+          command: |
+            sudo pip install pipenv
+            cd ~/api && pipenv sync -d
+      - save_cache:
+          key: cf-v4-{{ checksum "~/api/Pipfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - "~/api/.venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-packages"
+            - "~/.cache"
+      - run:
+          name: run tests
+          command: |
+            pytest tests
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - js-test
+      - python-test

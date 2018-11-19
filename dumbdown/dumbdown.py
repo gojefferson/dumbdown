@@ -3,8 +3,10 @@ import re
 _LOOKBEHINDS = r"((?<=^)|(?<=\s)|(?<=[!.,;:?]))"
 _LOOKAHEADS = r"(?=\s|$|[!.,;:?])"
 
-_STRONG = r"\*(\S[^*]*\S)\*"
-_ITAL = r"_(\S[^_]*\S)_"
+_STRONG_TERMINALS = r"[a-zA-Z0-9!_()]"
+_ITAL_TERMINALS = r"[a-zA-Z0-9!*()]"
+_STRONG = r"\*(" + _STRONG_TERMINALS + r"[^*]*" + _STRONG_TERMINALS + r")\*"
+_ITAL = r"_(" + _ITAL_TERMINALS + r"[^_]*" + _ITAL_TERMINALS + r")_"
 
 STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS
 ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS
