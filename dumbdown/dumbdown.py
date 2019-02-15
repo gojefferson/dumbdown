@@ -1,12 +1,36 @@
 import re
 
-_LOOKBEHINDS = r"((?<=^)|(?<=\s)|(?<=[!.,;:?]))"
+_LOOKBEHINDS = (
+    r"(" +  # we make a group of the lookbehinds:
+    r"(?<=^)" +  # start of a line matches
+    r"|" +  # or
+    r"(?<=\s)"  # any whitespace character
+    r"|" +  # or
+    r"(?<=[!.,;:?])" +  # any of the characters contained in the brackets
+    r")"
+)
+
 _LOOKAHEADS = r"(?=\s|$|[!.,;:?])"
 
-_STRONG_TERMINALS = r"[a-zA-Z0-9!_()]"
-_ITAL_TERMINALS = r"[a-zA-Z0-9!*()]"
-_STRONG = r"\*(" + _STRONG_TERMINALS + r"[^*]*" + _STRONG_TERMINALS + r")\*"
-_ITAL = r"_(" + _ITAL_TERMINALS + r"[^_]*" + _ITAL_TERMINALS + r")_"
+# _STRONG_TERMINALS = r"[a-zA-Z0-9!_()]"
+# _ITAL_TERMINALS = r"[a-zA-Z0-9!*()]"
+_STRONG = (
+    r"\*" +  # start with a literal *
+    r"(" +  # start group
+    # _STRONG_TERMINALS +
+    r"[^*]*" +
+    # _STRONG_TERMINALS +
+    r")" +  # end group
+    r"\*"
+)
+
+_ITAL = (
+    r"_(" +
+    # _ITAL_TERMINALS +
+    r"[^_]*" +
+    # _ITAL_TERMINALS +
+    r")_"
+)
 
 STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS
 ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS
@@ -101,7 +125,7 @@ class ParentNode(Node):
 
     def get_html(self):
         child_contents = "".join([child.get_html() for child in self.children])
-        return f"<{self.parent_tag}>{child_contents}</{self.parent_tag}>"
+        return f"<{self.parent_tag}>{child_contents.strip()}</{self.parent_tag}>"
 
 
 class ItalNode(ParentNode):
@@ -131,7 +155,7 @@ class Tree:
 class DumbDown:
 
     def __init__(self, md=""):
-        self._md = md
+        self._md = md.strip()
         self._tree = Tree()
         self._lines = self._md.split("\n")
         self._build_tree()

@@ -17,7 +17,7 @@
     },
     {
         "md": " * not* and mr*hi*",
-        "html": "<p> * not* and mr*hi*</p>"
+        "html": "<p><strong>not</strong> and mr*hi*</p>"
     },
     {
         "md": "*hans* and *franz*",
@@ -29,7 +29,7 @@
     },
     {
         "md": " _ not_ and mr_hi_",
-        "html": "<p> _ not_ and mr_hi_</p>"
+        "html": "<p><i>not</i> and mr_hi_</p>"
     },
     {
         "md": "_hans_ and _franz_",

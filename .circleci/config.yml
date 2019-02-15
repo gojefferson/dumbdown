@@ -34,33 +34,24 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
-      - run:
-          name: Update npm
-          command: |
-            sudo npm install -g npm@latest
       - restore_cache:
-          key: cf-v3-{{ checksum "~/api/Pipfile.lock" }}-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install node dependencies
-          command: |
-            sudo npm install -g yarn
-            yarn
+          key: cf-v3-{{ checksum "Pipfile.lock" }}
       - run:
           name: Install python dependencies
           command: |
             sudo pip install pipenv
-            cd ~/api && pipenv sync -d
+            pipenv sync -d
       - save_cache:
-          key: cf-v4-{{ checksum "~/api/Pipfile.lock" }}-{{ checksum "yarn.lock" }}
+          key: cf-v4-{{ checksum "Pipfile.lock" }}
           paths:
-            - "~/api/.venv"
+            - "~/.venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
             - "~/.cache"
       - run:
           name: run tests
           command: |
-            pytest tests
+            pipenv run pytest tests
 
 workflows:
   version: 2

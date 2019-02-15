@@ -1,0 +1,11 @@
+Slack does the following:
+TODO: change to match this:
+
+    {
+        "md": "*make a strong, even with whitespace around it * check",
+        "html": "<p><strong>make a strong, even with whitespace around it</strong> check</p>"
+    },
+    {
+        "md": "* but no leading whitespace * check",
+        "html": "<p>* but no leading whitespace * check</p>"
+    },
