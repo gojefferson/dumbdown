@@ -7,18 +7,28 @@
 
 const _LOOKBEHINDS = "((?<=^)|(?<=\\s)|(?<=[!.,;:?]))";
 const _LOOKAHEADS = "(?=\\s|$|[!.,;:?])";
-const _STRONG_TERMINALS = "[a-zA-Z0-9!_()]";
-const _ITAL_TERMINALS = "[a-zA-Z0-9!*()]";
+// const _STRONG_TERMINALS = "[a-zA-Z0-9!_()]";
+// const _ITAL_TERMINALS = "[a-zA-Z0-9!*()]";
 const _STRONG =
-  "\\*(" + _STRONG_TERMINALS + "[^*]*" + _STRONG_TERMINALS + ")\\*";
-const _ITAL = "_(" + _ITAL_TERMINALS + "[^_]*" + _ITAL_TERMINALS + ")_";
+  "\\*(" +
+    // _STRONG_TERMINALS +
+    "[^*]*" +
+    // _STRONG_TERMINALS +
+    ")\\*";
+
+const _ITAL =
+    "_(" +
+    // _ITAL_TERMINALS +
+    "[^_]*" +
+    // _ITAL_TERMINALS +
+    ")_";
+
 const STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS;
 const ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS;
 
 class ReAdapter {
   constructor(regex, string) {
     this._regex = new RegExp(regex);
-    this._string = string;
     this._m = this._regex.exec(string);
   }
 
@@ -48,7 +58,7 @@ class ReAdapter {
 }
 
 function extract_first_node(input_string) {
-  var _max, ital, split_point, strong;
+  let _max, ital, split_point, strong;
   strong = new ReAdapter(STRONG_RE, input_string);
   ital = new ReAdapter(ITAL_RE, input_string);
 
@@ -77,8 +87,7 @@ function extract_first_node(input_string) {
 
 class Node {
   constructor(content = "") {
-    var node;
-    this.content = content;
+    let node;
     this.children = [];
     this.is_leaf_node = false;
     if (!this.is_leaf_node) {
@@ -94,17 +103,15 @@ class Node {
   }
 
   get_html() {
-    let html = this.children.reduce((html, child) => {
+    return this.children.reduce((html, child) => {
       return html + child.get_html();
     }, "");
-    return html;
   }
 }
 
 class TextNode {
   constructor(content = "") {
     this.content = content;
-    this.is_leaf_node = true;
   }
 
   get_html() {
@@ -122,7 +129,7 @@ class ParentNode extends Node {
     let child_contents = this.children.reduce((accum, child) => {
       return accum + child.get_html();
     }, "");
-    return `<${this.parent_tag}>${child_contents}</${this.parent_tag}>`;
+    return `<${this.parent_tag}>${child_contents.trim()}</${this.parent_tag}>`;
   }
 }
 
@@ -159,14 +166,14 @@ class Tree {
 
 export default class DumbDown {
   constructor(md = "") {
-    this._md = md;
+    this._md = md.trim();
     this._tree = new Tree();
     this._lines = this._md.split("\n");
     this._build_tree();
   }
 
   _build_tree() {
-    var p;
+    let p;
     this._lines.forEach(line => {
       p = new ParagraphNode(line);
       this._tree.root.append_child(p);
