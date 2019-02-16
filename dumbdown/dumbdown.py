@@ -1,50 +1,40 @@
 import re
+from typing import List, Tuple, Optional
 
 _LOOKBEHINDS = (
-    r"(" +  # we make a group of the lookbehinds:
-    r"(?<=^)" +  # start of a line matches
-    r"|" +  # or
-    r"(?<=\s)"  # any whitespace character
-    r"|" +  # or
-    r"(?<=[!.,;:?])" +  # any of the characters contained in the brackets
-    r")"
+    r"("  # we make a group of the lookbehinds:
+    + r"(?<=^)"  # start of a line matches
+    + r"|"  # or
+    + r"(?<=\s)"  # any whitespace character
+    r"|"  # or
+    + r"(?<=[!.,;:?])"  # any of the characters contained in the brackets
+    + r")"
 )
 
 _LOOKAHEADS = r"(?=\s|$|[!.,;:?])"
 
-# _STRONG_TERMINALS = r"[a-zA-Z0-9!_()]"
-# _ITAL_TERMINALS = r"[a-zA-Z0-9!*()]"
 _STRONG = (
-    r"\*" +  # start with a literal *
-    r"(" +  # start group
-    # _STRONG_TERMINALS +
-    r"[^*]*" +
-    # _STRONG_TERMINALS +
-    r")" +  # end group
-    r"\*"
+    r"\*"  # start with a literal *
+    + r"("  # start group
+    + r"[^*]*"
+    + r")"  # end group
+    + r"\*"
 )
 
-_ITAL = (
-    r"_(" +
-    # _ITAL_TERMINALS +
-    r"[^_]*" +
-    # _ITAL_TERMINALS +
-    r")_"
-)
+_ITAL = r"_(" + r"[^_]*" + r")_"
 
 STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS
 ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS
 
 
 class ReAdapter:
-
-    def __init__(self, regex, string):
+    def __init__(self, regex: str, string: str):
         self._regex = regex
         self._string = string
-        self._m = re.search(regex, string)
+        self._m: re.Match = re.search(regex, string)
 
     @property
-    def start_index(self):
+    def start_index(self) -> Optional[int]:
         if not self._m:
             return None
         else:
@@ -53,7 +43,7 @@ class ReAdapter:
             return self._m.span()[0]
 
     @property
-    def end_index(self):
+    def end_index(self) -> Optional[int]:
         if not self._m:
             return None
         else:
@@ -62,7 +52,7 @@ class ReAdapter:
             return self._m.span()[1]
 
     @property
-    def content(self):
+    def content(self) -> Optional[str]:
         if not self._m:
             return None
         else:
@@ -70,9 +60,9 @@ class ReAdapter:
             return self._m.groups()[1]
 
 
-def extract_first_node(input_string):
-    strong = ReAdapter(STRONG_RE, input_string)
-    ital = ReAdapter(ITAL_RE, input_string)
+def extract_first_node(input_string) -> Tuple["Node", str]:
+    strong: ReAdapter = ReAdapter(STRONG_RE, input_string)
+    ital: ReAdapter = ReAdapter(ITAL_RE, input_string)
 
     if strong.start_index == 0:
         return StrongNode(content=strong.content), input_string[strong.end_index:]
@@ -84,31 +74,31 @@ def extract_first_node(input_string):
     if not strong.start_index and not ital.start_index:
         return TextNode(content=input_string), ""
 
-    _max = len(input_string)
-    split_point = min(strong.start_index or _max, ital.start_index or _max)
+    _max: int = len(input_string)
+    split_point: int = min(strong.start_index or _max, ital.start_index or _max)
     return TextNode(content=input_string[:split_point]), input_string[split_point:]
 
 
 class Node:
 
-    is_leaf_node = False
+    is_leaf_node: bool = False
 
-    def __init__(self, content=""):
-        self.content = content
-        self.children = []
+    def __init__(self, content: str = ""):
+        self.content: str = content
+        self.children: List["Node"] = []
         if not self.is_leaf_node:
             while content != "":
                 node, content = extract_first_node(content)
                 self.append_child(node)
 
-    def append_child(self, node):
+    def append_child(self, node: "Node") -> None:
         self.children.append(node)
 
-    def get_html(self):
+    def get_html(self) -> str:
         return "".join([child.get_html() for child in self.children])
 
-    def __repr__(self):
-        return f"<{self.__class__.__name__} \"{self.content}\">"
+    def __repr__(self) -> str:
+        return f'<{self.__class__.__name__} "{self.content}">'
 
 
 class TextNode(Node):
@@ -121,9 +111,9 @@ class TextNode(Node):
 
 class ParentNode(Node):
 
-    parent_tag = "UNDEFINED"
+    parent_tag: str = "UNDEFINED"
 
-    def get_html(self):
+    def get_html(self) -> str:
         child_contents = "".join([child.get_html() for child in self.children])
         return f"<{self.parent_tag}>{child_contents.strip()}</{self.parent_tag}>"
 
@@ -144,26 +134,24 @@ class ParagraphNode(ParentNode):
 
 
 class Tree:
-
     def __init__(self):
-        self.root = Node()
+        self.root: Node = Node()
 
-    def get_html(self):
+    def get_html(self) -> str:
         return self.root.get_html()
 
 
 class DumbDown:
-
     def __init__(self, md=""):
-        self._md = md.strip()
-        self._tree = Tree()
-        self._lines = self._md.split("\n")
+        self._md: str = md.strip()
+        self._tree: Tree = Tree()
+        self._lines: List[str] = self._md.split("\n")
         self._build_tree()
 
-    def _build_tree(self):
+    def _build_tree(self) -> None:
         for line in self._lines:
             p = ParagraphNode(content=line)
             self._tree.root.append_child(p)
 
-    def to_html(self):
+    def to_html(self) -> str:
         return self._tree.get_html()

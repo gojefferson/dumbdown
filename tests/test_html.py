@@ -1,12 +1,13 @@
 import json
+
 from dumbdown.dumbdown import (
     DumbDown,
+    ItalNode,
+    ParagraphNode,
+    StrongNode,
+    TextNode,
     Tree,
     extract_first_node,
-    ParagraphNode,
-    TextNode,
-    ItalNode,
-    StrongNode,
 )
 
 

@@ -8,6 +8,9 @@ pytest = "*"
 ipdb = "*"
 ipython = "*"
 faker = "*"
+black = {git = "git://github.com/ambv/black.git",editable = true,ref = "41240e9a784fe11d9e1a76befaf09b7ab2d09893"}
+isort = "*"
+flake8 = "*"
 
 [packages]
 python-docx = "*"

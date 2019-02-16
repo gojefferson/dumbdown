@@ -1,7 +1,6 @@
 import DumbDown from "../dumbdown";
 var assert = require("assert");
 
-
 describe("Test DumbDown", function() {
   var fs = require("fs");
   var content = fs.readFileSync("test_examples.json");

@@ -22,6 +22,10 @@ jobs:
           paths:
             - "~/.cache"
       - run:
+          name: lint
+          command: |
+            yarn run lint
+      - run:
           name: mocha tests
           command: |
             yarn run test
@@ -48,6 +52,14 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
             - "~/.cache"
+      - run:
+          name: run flake8
+          command: |
+            pipenv run flake8 . --exclude=".venv/"
+      - run:
+          name: run isort
+          command: |
+            pipenv run isort --check-only --diff --recursive --virtual-env ./.venv . --skip-glob=".venv"
       - run:
           name: run tests
           command: |

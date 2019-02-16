@@ -1,23 +1,16 @@
 from docx import Document
 from faker import Faker
-from dumbdown.docxdown import write_md_to_doc, confirm_styles_exist_in_document
 
-ESSENTIAL_STYLES = [
-    "Normal",
-    "Heading 1",
-    "Heading 2",
-    "List Paragraph",
-    "No Spacing",
-]
+from dumbdown.docxdown import confirm_styles_exist_in_document, write_md_to_doc
+
+ESSENTIAL_STYLES = ["Normal", "Heading 1", "Heading 2", "List Paragraph", "No Spacing"]
 
 fake = Faker()
 
 
 def write_random_paragraphs(document, number=2):
     for i in range(number):
-        document.add_paragraph(
-            f"{i}: {fake.text()}"
-        )
+        document.add_paragraph(f"{i}: {fake.text()}")
 
 
 SAMPLE_MD = (

@@ -1,14 +1,16 @@
+from abc import ABC
+
 from .dumbdown import (
-    Node,
-    TextNode,
-    StrongNode,
-    ItalNode,
-    ParagraphNode,
-    DumbDown,
-    Tree,
-    ReAdapter,
-    STRONG_RE,
     ITAL_RE,
+    STRONG_RE,
+    DumbDown,
+    ItalNode,
+    Node,
+    ParagraphNode,
+    ReAdapter,
+    StrongNode,
+    TextNode,
+    Tree,
 )
 
 
@@ -17,10 +19,10 @@ def extract_first_node(input_string):
     ital = ReAdapter(ITAL_RE, input_string)
 
     if strong.start_index == 0:
-        return DocxStrongNode(content=strong.content), input_string[strong.end_index:]
+        return DocxStrongNode(content=strong.content), input_string[strong.end_index :]
 
     if ital.start_index == 0:
-        return DocxItalNode(content=ital.content), input_string[ital.end_index:]
+        return DocxItalNode(content=ital.content), input_string[ital.end_index :]
 
     # we have no matches
     if not strong.start_index and not ital.start_index:
@@ -32,7 +34,6 @@ def extract_first_node(input_string):
 
 
 class DocxNode(Node):
-
     def __init__(self, content=""):
         self.content = content
         self.children = []
@@ -42,11 +43,10 @@ class DocxNode(Node):
                 self.append_child(node)
 
     def add_runs(self, p):
-        raise NotImplemented("Subclasses of DocxNode must implement `add_runs`")
+        raise NotImplementedError("Subclasses of DocxNode must implement `add_runs`")
 
 
-class DocxRootNode(DocxNode):
-
+class DocxRootNode(DocxNode, ABC):
     def write_to_doc(self, doc, paragraph_style=None):
         for child in self.children:
             child.write_to_doc(doc, paragraph_style)
@@ -54,14 +54,12 @@ class DocxRootNode(DocxNode):
 
 
 class DocxTextNode(TextNode):
-
     def add_runs(self, p):
         p.add_run(self.content)
         return p
 
 
 class DocxItalNode(ItalNode, DocxNode):
-
     def add_runs(self, p):
         for child in self.children:
             run = p.add_run(child.content)
@@ -72,7 +70,6 @@ class DocxItalNode(ItalNode, DocxNode):
 
 
 class DocxStrongNode(StrongNode, DocxNode):
-
     def add_runs(self, p):
         for child in self.children:
             run = p.add_run(child.content)
@@ -83,7 +80,6 @@ class DocxStrongNode(StrongNode, DocxNode):
 
 
 class DocxParagraphNode(ParagraphNode, DocxNode):
-
     def write_to_doc(self, doc, paragraph_style=None):
         p = doc.add_paragraph()
         if paragraph_style:
@@ -93,7 +89,6 @@ class DocxParagraphNode(ParagraphNode, DocxNode):
 
 
 class DocxTree(Tree):
-
     def __init__(self):
         self.root = DocxRootNode()
 
@@ -102,7 +97,6 @@ class DocxTree(Tree):
 
 
 class DocxDumbDown(DumbDown):
-
     def __init__(self, md=""):
         self._md = md
         self._tree = DocxTree()
@@ -137,4 +131,6 @@ def confirm_styles_exist_in_document(document, styles):
         except KeyError:
             missing.append(style)
     if len(missing) > 0:
-        raise NotImplemented(f"Document is missing the following styles {', '.join(missing)}")
+        raise NotImplementedError(
+            f"Document is missing the following styles {', '.join(missing)}"
+        )

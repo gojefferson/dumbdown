@@ -7,21 +7,16 @@
 
 const _LOOKBEHINDS = "((?<=^)|(?<=\\s)|(?<=[!.,;:?]))";
 const _LOOKAHEADS = "(?=\\s|$|[!.,;:?])";
-// const _STRONG_TERMINALS = "[a-zA-Z0-9!_()]";
-// const _ITAL_TERMINALS = "[a-zA-Z0-9!*()]";
+
 const _STRONG =
   "\\*(" +
-    // _STRONG_TERMINALS +
-    "[^*]*" +
-    // _STRONG_TERMINALS +
-    ")\\*";
+  "[^*]*" +
+  ")\\*";
 
 const _ITAL =
-    "_(" +
-    // _ITAL_TERMINALS +
-    "[^_]*" +
-    // _ITAL_TERMINALS +
-    ")_";
+  "_(" +
+  "[^_]*" +
+  ")_";
 
 const STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS;
 const ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS;
@@ -65,7 +60,7 @@ function extract_first_node(input_string) {
   if (strong.start_index === 0) {
     return [
       new StrongNode(strong.content),
-      input_string.slice(strong.end_index),
+      input_string.slice(strong.end_index)
     ];
   }
 
@@ -81,7 +76,7 @@ function extract_first_node(input_string) {
   split_point = Math.min(strong.start_index || _max, ital.start_index || _max);
   return [
     new TextNode(input_string.slice(0, split_point)),
-    input_string.slice(split_point),
+    input_string.slice(split_point)
   ];
 }
 

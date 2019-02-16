@@ -12,6 +12,10 @@
         "html": "<p>and ... <strong>hans</strong>!</p>"
     },
     {
+        "md": "and ... *!hans!*",
+        "html": "<p>and ... <strong>!hans!</strong></p>"
+    },
+    {
         "md": "and ... !*hans*!",
         "html": "<p>and ... !<strong>hans</strong>!</p>"
     },
@@ -46,6 +50,10 @@
     {
         "md": "_*hans* is_\nstrong",
         "html": "<p><i><strong>hans</strong> is</i></p><p>strong</p>"
+    },
+    {
+        "md": "_*hans* is\nstrong_",
+        "html": "<p>_*hans* is</p><p>strong_</p>"
     },
     {
         "md": "_*hans*_",

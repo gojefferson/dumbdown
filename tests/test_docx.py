@@ -1,4 +1,5 @@
 from docx import Document
+
 from dumbdown.docxdown import write_md_to_doc
 
 
@@ -10,7 +11,9 @@ def test_creates_single_paragraph_by_default():
 
 def test_can_create_multiple_paragraphs():
     document = Document()
-    write_md_to_doc(document, "first line.\nsecond line\nthird line", strip_newlines=False)
+    write_md_to_doc(
+        document, "first line.\nsecond line\nthird line", strip_newlines=False
+    )
     assert len(document.paragraphs) == 3
 
 
