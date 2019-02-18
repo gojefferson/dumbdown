@@ -1,11 +1,12 @@
 {
   "name": "dumbdown",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "description": "Really limited and simple strong and italics formatting",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js -d lib",
+    "build": "babel index.js -d lib --no-babelrc --config-file ./buildrc.json",
+    "babel": "babel",
     "test": "mocha --require @babel/register",
     "lint": "eslint ./*.js test"
   },
