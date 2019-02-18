@@ -8,15 +8,9 @@
 const _LOOKBEHINDS = "((?<=^)|(?<=\\s)|(?<=[!.,;:?]))";
 const _LOOKAHEADS = "(?=\\s|$|[!.,;:?])";
 
-const _STRONG =
-  "\\*(" +
-  "[^*]*" +
-  ")\\*";
+const _STRONG = "\\*(" + "[^*]*" + ")\\*";
 
-const _ITAL =
-  "_(" +
-  "[^_]*" +
-  ")_";
+const _ITAL = "_(" + "[^_]*" + ")_";
 
 const STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS;
 const ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS;

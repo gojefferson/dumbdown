@@ -2,8 +2,8 @@ README.md
 setup.cfg
 setup.py
 dumbdown/__init__.py
-dumbdown/docxdown.py
-dumbdown/dumbdown.py
+dumbdown/docx.py
+dumbdown/html.py
 dumbdown.egg-info/PKG-INFO
 dumbdown.egg-info/SOURCES.txt
 dumbdown.egg-info/dependency_links.txt

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: dumbdown
-Version: 0.0.2
+Version: 0.0.3
 Summary: *Extremely* _simple_ markdown-ish format
 Home-page: https://github.com/LAWPRCT/dumbdown
 Author: Jeff Kerr
@@ -47,4 +47,5 @@ Platform: UNKNOWN
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.7
+Requires-Python: >= 3.7
 Description-Content-Type: text/markdown
