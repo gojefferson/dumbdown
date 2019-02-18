@@ -25,5 +25,5 @@ setup(
     ],
     packages=["dumbdown"],
     include_package_data=True,
-    install_requires=["python-docx"],
+    # install_requires=["python-docx"],
 )
