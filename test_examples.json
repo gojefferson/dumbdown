@@ -1,70 +1,92 @@
 [
     {
+        "md": "Empty\n\nlines are possible",
+        "html": "<p>Empty</p><p></p><p>lines are possible</p>",
+        "plain": "Empty  lines are possible"
+    },
+    {
         "md": "This is one line\nThis is another",
-        "html": "<p>This is one line</p><p>This is another</p>"
+        "html": "<p>This is one line</p><p>This is another</p>",
+        "plain": "This is one line This is another"
     },
     {
         "md": "*hans* and",
-        "html": "<p><strong>hans</strong> and</p>"
+        "html": "<p><strong>hans</strong> and</p>",
+        "plain": "hans and"
     },
     {
         "md": "and ... *hans*!",
-        "html": "<p>and ... <strong>hans</strong>!</p>"
+        "html": "<p>and ... <strong>hans</strong>!</p>",
+        "plain": "and ... hans!"
     },
     {
         "md": "and ... *!hans!*",
-        "html": "<p>and ... <strong>!hans!</strong></p>"
+        "html": "<p>and ... <strong>!hans!</strong></p>",
+        "plain": "and ... !hans!"
     },
     {
         "md": "and ... !*hans*!",
-        "html": "<p>and ... !<strong>hans</strong>!</p>"
+        "html": "<p>and ... !<strong>hans</strong>!</p>",
+        "plain": "and ... !hans!"
     },
     {
         "md": " * not* and mr*hi*",
-        "html": "<p><strong>not</strong> and mr*hi*</p>"
+        "html": "<p><strong>not</strong> and mr*hi*</p>",
+        "plain": "not and mr*hi*"
     },
     {
         "md": "*hans* and *franz*",
-        "html": "<p><strong>hans</strong> and <strong>franz</strong></p>"
+        "html": "<p><strong>hans</strong> and <strong>franz</strong></p>",
+        "plain": "hans and franz"
     },
     {
         "md": "_hans_ and",
-        "html": "<p><i>hans</i> and</p>"
+        "html": "<p><i>hans</i> and</p>",
+        "plain": "hans and"
     },
     {
         "md": " _ not_ and mr_hi_",
-        "html": "<p><i>not</i> and mr_hi_</p>"
+        "html": "<p><i>not</i> and mr_hi_</p>",
+        "plain": "not and mr_hi_"
     },
     {
         "md": "_hans_ and _franz_",
-        "html": "<p><i>hans</i> and <i>franz</i></p>"
+        "html": "<p><i>hans</i> and <i>franz</i></p>",
+        "plain": "hans and franz"
     },
     {
         "md": "*_hans_ and _franz_*",
-        "html": "<p><strong><i>hans</i> and <i>franz</i></strong></p>"
+        "html": "<p><strong><i>hans</i> and <i>franz</i></strong></p>",
+        "plain": "hans and franz"
     },
     {
         "md": "_*hans* and *franz*_",
-        "html": "<p><i><strong>hans</strong> and <strong>franz</strong></i></p>"
+        "html": "<p><i><strong>hans</strong> and <strong>franz</strong></i></p>",
+        "plain": "hans and franz"
     },
     {
         "md": "_*hans* is_\nstrong",
-        "html": "<p><i><strong>hans</strong> is</i></p><p>strong</p>"
+        "html": "<p><i><strong>hans</strong> is</i></p><p>strong</p>",
+        "plain": "hans is strong"
     },
     {
         "md": "_*hans* is\nstrong_",
-        "html": "<p>_*hans* is</p><p>strong_</p>"
+        "html": "<p>_*hans* is</p><p>strong_</p>",
+        "plain": "_*hans* is strong_"
     },
     {
         "md": "_*hans*_",
-        "html": "<p><i><strong>hans</strong></i></p>"
+        "html": "<p><i><strong>hans</strong></i></p>",
+        "plain": "hans"
     },
     {
         "md": "_*hans_* **lu**",
-        "html": "<p>_*hans_* **lu**</p>"
+        "html": "<p>_*hans_* **lu**</p>",
+        "plain": "_*hans_* **lu**"
     },
     {
         "md": "*_hans_*",
-        "html": "<p><strong><i>hans</i></strong></p>"
+        "html": "<p><strong><i>hans</i></strong></p>",
+        "plain": "hans"
     }
 ]

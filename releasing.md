@@ -1,9 +1,11 @@
-# Build
+# Python
+
+## Build
 ```
 python setup.py sdist bdist_wheel
 ```
 
-# Upload test
+## Upload test
 
 ```
 twine upload dist/*

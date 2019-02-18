@@ -82,6 +82,7 @@ def extract_first_node(input_string) -> Tuple["Node", str]:
 class Node:
 
     is_leaf_node: bool = False
+    block_element: bool = False
 
     def __init__(self, content: str = ""):
         self.content: str = content
@@ -94,6 +95,9 @@ class Node:
     def append_child(self, node: "Node") -> None:
         self.children.append(node)
 
+    def get_plain(self) -> str:
+        return "".join([child.get_plain() for child in self.children])
+
     def get_html(self) -> str:
         return "".join([child.get_html() for child in self.children])
 
@@ -105,17 +109,28 @@ class TextNode(Node):
 
     is_leaf_node = True
 
+    def get_plain(self):
+        return self.content
+
     def get_html(self):
         return self.content
 
 
 class ParentNode(Node):
 
-    parent_tag: str = "UNDEFINED"
+    parent_tag: Optional[str] = None
+
+    def get_plain(self) -> str:
+        child_contents = "".join([child.get_plain() for child in self.children])
+        if self.block_element:
+            return f"{child_contents.strip()} "
+        else:
+            return child_contents.strip()
 
     def get_html(self) -> str:
         child_contents = "".join([child.get_html() for child in self.children])
-        return f"<{self.parent_tag}>{child_contents.strip()}</{self.parent_tag}>"
+        if self.parent_tag:
+            return f"<{self.parent_tag}>{child_contents.strip()}</{self.parent_tag}>"
 
 
 class ItalNode(ParentNode):
@@ -130,12 +145,16 @@ class StrongNode(ParentNode):
 
 class ParagraphNode(ParentNode):
 
+    block_element = True
     parent_tag = "p"
 
 
 class Tree:
     def __init__(self):
         self.root: Node = Node()
+
+    def get_plain(self) -> str:
+        return self.root.get_plain()
 
     def get_html(self) -> str:
         return self.root.get_html()
@@ -153,5 +172,16 @@ class Parser:
             p = ParagraphNode(content=line)
             self._tree.root.append_child(p)
 
+    def to_plain(self) -> str:
+        return self._tree.get_plain().strip()
+
     def to_html(self) -> str:
-        return self._tree.get_html()
+        return self._tree.get_html().strip()
+
+
+def to_html(md=""):
+    return Parser(md).to_html()
+
+
+def to_plain(md=""):
+    return Parser(md).to_plain()
