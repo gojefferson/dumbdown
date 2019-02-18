@@ -1,9 +1,9 @@
 import json
 
-from dumbdown.dumbdown import (
-    DumbDown,
+from dumbdown.html import (
     ItalNode,
     ParagraphNode,
+    Parser,
     StrongNode,
     TextNode,
     Tree,
@@ -12,10 +12,10 @@ from dumbdown.dumbdown import (
 
 
 def test_json_examples():
-    with open("test_examples.json") as jsonfile:
-        examples = json.loads(jsonfile.read())
+    with open("test_examples.json") as json_file:
+        examples = json.loads(json_file.read())
         for example in examples:
-            assert DumbDown(example["md"]).to_html() == example["html"]
+            assert Parser(example["md"]).to_html() == example["html"]
 
 
 def test_extract_first_node_gets_strong():

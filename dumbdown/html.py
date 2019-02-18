@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 _LOOKBEHINDS = (
     r"("  # we make a group of the lookbehinds:
@@ -65,10 +65,10 @@ def extract_first_node(input_string) -> Tuple["Node", str]:
     ital: ReAdapter = ReAdapter(ITAL_RE, input_string)
 
     if strong.start_index == 0:
-        return StrongNode(content=strong.content), input_string[strong.end_index:]
+        return StrongNode(content=strong.content), input_string[strong.end_index :]
 
     if ital.start_index == 0:
-        return ItalNode(content=ital.content), input_string[ital.end_index:]
+        return ItalNode(content=ital.content), input_string[ital.end_index :]
 
     # we have no matches
     if not strong.start_index and not ital.start_index:
@@ -141,7 +141,7 @@ class Tree:
         return self.root.get_html()
 
 
-class DumbDown:
+class Parser:
     def __init__(self, md=""):
         self._md: str = md.strip()
         self._tree: Tree = Tree()

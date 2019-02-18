@@ -1,7 +1,7 @@
 from docx import Document
 from faker import Faker
 
-from dumbdown.docxdown import confirm_styles_exist_in_document, write_md_to_doc
+from dumbdown.docx import confirm_styles_exist_in_document, write_md_to_doc
 
 ESSENTIAL_STYLES = ["Normal", "Heading 1", "Heading 2", "List Paragraph", "No Spacing"]
 

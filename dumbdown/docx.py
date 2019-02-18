@@ -1,12 +1,12 @@
 from abc import ABC
 
-from .dumbdown import (
+from .html import (
     ITAL_RE,
     STRONG_RE,
-    DumbDown,
     ItalNode,
     Node,
     ParagraphNode,
+    Parser,
     ReAdapter,
     StrongNode,
     TextNode,
@@ -96,7 +96,7 @@ class DocxTree(Tree):
         return self.root.write_to_doc(doc, paragraph_style)
 
 
-class DocxDumbDown(DumbDown):
+class DocxParser(Parser):
     def __init__(self, md=""):
         self._md = md
         self._tree = DocxTree()
@@ -120,7 +120,7 @@ def write_md_to_doc(document, md, strip_newlines=True, numbered=False):
     if numbered:
         paragraph_style = document.styles["List Paragraph"]
 
-    DocxDumbDown(md=md).append_to_doc(document, paragraph_style=paragraph_style)
+    DocxParser(md=md).append_to_doc(document, paragraph_style=paragraph_style)
 
 
 def confirm_styles_exist_in_document(document, styles):

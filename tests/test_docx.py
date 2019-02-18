@@ -1,6 +1,6 @@
 from docx import Document
 
-from dumbdown.docxdown import write_md_to_doc
+from dumbdown.docx import write_md_to_doc
 
 
 def test_creates_single_paragraph_by_default():

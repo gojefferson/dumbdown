@@ -1,4 +1,5 @@
 import pathlib
+
 from setuptools import setup
 
 # The directory containing this file
@@ -10,10 +11,11 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="dumbdown",
-    version="0.0.2",
+    version="0.0.3",
     description="*Extremely* _simple_ markdown-ish format",
     long_description=README,
     long_description_content_type="text/markdown",
+    python_requires=">= 3.7",
     url="https://github.com/LAWPRCT/dumbdown",
     author="Jeff Kerr",
     author_email="jeff@casefleet.com",

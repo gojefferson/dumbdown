@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 _LOOKBEHINDS = (
     r"("  # we make a group of the lookbehinds:
