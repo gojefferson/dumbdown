@@ -82,18 +82,24 @@ class Node {
     if (!this.is_leaf_node) {
       while (content !== "") {
         [node, content] = extract_first_node(content);
-        this.append_child(node);
+        this.appendChild(node);
       }
     }
   }
 
-  append_child(node) {
+  appendChild(node) {
     this.children.push(node);
   }
 
-  get_html() {
+  getPlain() {
     return this.children.reduce((html, child) => {
-      return html + child.get_html();
+      return html + child.getPlain();
+    }, "");
+  }
+
+  getHtml() {
+    return this.children.reduce((html, child) => {
+      return html + child.getHtml();
     }, "");
   }
 }
@@ -103,7 +109,11 @@ class TextNode {
     this.content = content;
   }
 
-  get_html() {
+  getPlain() {
+    return this.content;
+  }
+
+  getHtml() {
     return this.content;
   }
 }
@@ -111,35 +121,51 @@ class TextNode {
 class ParentNode extends Node {
   constructor() {
     super(...arguments);
-    this.parent_tag = "UNDEFINED";
+    this.parentTag = null;
+    this.blockElement = false;
   }
 
-  get_html() {
-    let child_contents = this.children.reduce((accum, child) => {
-      return accum + child.get_html();
+  getPlain() {
+    let childContents = this.children.reduce((accum, child) => {
+      return accum + child.getPlain();
     }, "");
-    return `<${this.parent_tag}>${child_contents.trim()}</${this.parent_tag}>`;
+    if (this.blockElement) {
+      return `${childContents.trim()} `;
+    }
+    return childContents.trim();
+  }
+
+  getHtml() {
+    let childContents = this.children.reduce((accum, child) => {
+      return accum + child.getHtml();
+    }, "");
+    if (this.parentTag) {
+      return `<${this.parentTag}>${childContents.trim()}</${this.parentTag}>`;
+    } else {
+      return childContents.trim();
+    }
   }
 }
 
 class ItalNode extends ParentNode {
   constructor() {
     super(...arguments);
-    this.parent_tag = "i";
+    this.parentTag = "i";
   }
 }
 
 class StrongNode extends ParentNode {
   constructor() {
     super(...arguments);
-    this.parent_tag = "strong";
+    this.parentTag = "strong";
   }
 }
 
 class ParagraphNode extends ParentNode {
   constructor() {
     super(...arguments);
-    this.parent_tag = "p";
+    this.blockElement = true;
+    this.parentTag = "p";
   }
 }
 
@@ -148,32 +174,44 @@ class Tree {
     this.root = new Node();
   }
 
-  get_html() {
-    return this.root.get_html();
+  getHtml() {
+    return this.root.getHtml();
+  }
+
+  getPlain() {
+    return this.root.getPlain();
   }
 }
 
-class DumbDown {
+class Parser {
   constructor(md = "") {
     this._md = md.trim();
     this._tree = new Tree();
     this._lines = this._md.split("\n");
-    this._build_tree();
+    this._buildTree();
   }
 
-  _build_tree() {
+  _buildTree() {
     let p;
     this._lines.forEach(line => {
       p = new ParagraphNode(line);
-      this._tree.root.append_child(p);
+      this._tree.root.appendChild(p);
     });
   }
 
-  to_html() {
-    return this._tree.get_html();
+  toHtml() {
+    return this._tree.getHtml();
+  }
+
+  toPlain() {
+    return this._tree.getPlain().trim();
   }
 }
 
-export default function toHtml(md = "") {
-  return new DumbDown(md).to_html();
+export function toHtml(md = "") {
+  return new Parser(md).toHtml();
+}
+
+export function toPlain(md = "") {
+  return new Parser(md).toPlain();
 }

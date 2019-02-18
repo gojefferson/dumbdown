@@ -1,12 +1,27 @@
-# Python
+# Python / PyPi
 
 ## Build
 ```
 python setup.py sdist bdist_wheel
 ```
 
-## Upload test
+## Release
 
 ```
 twine upload dist/*
 ```
+
+# Javascript / NPM
+
+## Build
+
+```
+yarn run build
+```
+
+## Release
+
+```
+npm publish
+```
+
