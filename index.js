@@ -153,7 +153,7 @@ class Tree {
   }
 }
 
-export default class DumbDown {
+class DumbDown {
   constructor(md = "") {
     this._md = md.trim();
     this._tree = new Tree();
@@ -172,4 +172,8 @@ export default class DumbDown {
   to_html() {
     return this._tree.get_html();
   }
+}
+
+export default function toHtml(md = "") {
+  return new DumbDown(md).to_html();
 }

@@ -1,14 +1,16 @@
-import DumbDown from "..";
-var assert = require("assert");
+import toHtml from "..";
+// let assert = require("assert");
+import assert from "assert";
+import fs from "fs";
+
 
 describe("Test DumbDown", function() {
-  var fs = require("fs");
-  var content = fs.readFileSync("test_examples.json");
-  var data = JSON.parse(content);
+  let content = fs.readFileSync("test_examples.json");
+  let data = JSON.parse(content);
   data.forEach(example => {
     it(`gets "${example["md"]}" right`, function() {
-      let dd = new DumbDown(example["md"]);
-      assert.equal(dd.to_html(), example["html"]);
+      let html = toHtml(example["md"]);
+      assert.equal(html, example["html"]);
     });
   });
 });
