@@ -1,4 +1,9 @@
 {
+  "name": "dumbdown",
+  "version": "1.0.1",
+  "license": "MIT",
+  "description": "Really limited and simple strong and italics formatting",
+  "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
     "lint": "eslint ./*.js test"

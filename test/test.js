@@ -1,4 +1,4 @@
-import DumbDown from "../dumbdown";
+import DumbDown from "..";
 var assert = require("assert");
 
 describe("Test DumbDown", function() {
