@@ -116,7 +116,8 @@ def write_md_to_doc(document, md, strip_newlines=True, numbered=False):
     if strip_newlines or numbered:
         md = md.replace("\n", " ")
 
-    paragraph_style = None
+    paragraph_style = document.styles["Normal"]
+
     if numbered:
         paragraph_style = document.styles["List Paragraph"]
 
