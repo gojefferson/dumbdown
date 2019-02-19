@@ -1,3 +1,0 @@
-Slack does the following:
-TODO: publish on pypi: see this
-https://realpython.com/pypi-publish-python-package/#preparing-your-package-for-publication
