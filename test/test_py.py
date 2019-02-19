@@ -1,14 +1,13 @@
 import json
 
-from dumbdown.html import (
+from dumbdown import to_html, to_plain
+from dumbdown.internals import (
     ItalNode,
     ParagraphNode,
     StrongNode,
     TextNode,
     Tree,
     extract_first_node,
-    to_html,
-    to_plain,
 )
 
 

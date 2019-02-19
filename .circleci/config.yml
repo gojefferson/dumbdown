@@ -63,7 +63,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            pipenv run pytest test
+            pipenv run pytest
 
 workflows:
   version: 2

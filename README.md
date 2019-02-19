@@ -2,23 +2,38 @@
 
 
 # dumbdown
-Extremely simplified quasi-markdown to HTML parsing. 
+Extremely simplified quasi-markdown to HTML parsing.
+
+## Installation
+
+To install the python package:
+
+```
+pip install dumbdown
+```
+
+To install the npm package:
+
+```
+npm install dumbdown
+```
+
 
 ## Usage
 It allows 2 kinds of formatting marks, **bold** and *italic*, but it uses Slack's syntax for these and not Markdown syntax.
 
-Bold text must have `*` surrounding it: 
+Bold text must have `*` surrounding it:
 
 ```
-For example, *this would be bold*. 
+For example, *this would be bold*.
 ```
 
 Italicized text has `_` surrounding it:
 ```
-And _this would be in italics_. 
+And _this would be in italics_.
 ```
 
-Bold and italics can be nested within each other: 
+Bold and italics can be nested within each other:
 ```
 *bold _bold-italics_*, _italics with some *bold* inside_. *_Nice!_*.
 ```
@@ -28,7 +43,7 @@ Bold and italics can be nested within each other:
 The Python version provides two functions: `to_html` and `to_plain`.
 
 ``` {.sourceCode .python}
->>> from dumbdown.html import to_html, to_plain
+>>> from dumbdown import to_html, to_plain
 
 >>> to_html("*This is bold _this is bold ital._*\nThis is on a new line")
 '<p><strong>This is bold <i>this is bold ital.</i></strong></p><p>This is on a new line</p>'
@@ -51,18 +66,12 @@ The Javascript version provides two functions: `toHtml` and `toPlain`.
 'This is bold this is bold ital. This is on a new line'
 ```
 
-Returns:
-
-```html
-<p><strong>This is bold <i>this is bold ital.</i></strong></p><p>This is on a new line</p>
-```
-
 ## Testing
 To test:
 
 ### Python
 ```
-pytest test
+pytest
 ```
 
 ### Javascript
