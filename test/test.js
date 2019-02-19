@@ -2,7 +2,6 @@ import { toHtml, toPlain } from "..";
 import assert from "assert";
 import fs from "fs";
 
-
 describe("Test DumbDown", function() {
   let content = fs.readFileSync("test_examples.json");
   let data = JSON.parse(content);
