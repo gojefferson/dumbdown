@@ -1,6 +1,6 @@
 {
   "name": "dumbdown",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "description": "Really limited and simple strong and italics formatting",
   "main": "index.js",

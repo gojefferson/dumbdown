@@ -13,7 +13,7 @@ from dumbdown.html import (
 
 
 def test_json_examples():
-    with open("test_examples.json") as json_file:
+    with open("test/test_examples.json") as json_file:
         examples = json.loads(json_file.read())
         for example in examples:
             assert to_html(example["md"]) == example["html"]

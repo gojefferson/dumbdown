@@ -3,7 +3,7 @@ import assert from "assert";
 import fs from "fs";
 
 describe("Test DumbDown", function() {
-  let content = fs.readFileSync("test_examples.json");
+  let content = fs.readFileSync("test/test_examples.json");
   let data = JSON.parse(content);
   data.forEach(example => {
     it(`gets "${example["md"]}" right`, function() {

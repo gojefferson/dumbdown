@@ -23,39 +23,42 @@ Bold and italics can be nested within each other:
 
 ## Testing
 To test:
-```
-pytest tests.py
-```
 
-## Demo
-
-To generate a sample DOCX file:
+### Python
 ```
-python docx-template.py
+pytest tests
 ```
 
-# Python / PyPi
+### Javascript
 
-## Build
+```
+yarn run test
+```
+
+# Releasing
+
+## Python / PyPi
+
+### Build
 ```
 python setup.py sdist bdist_wheel
 ```
 
-## Release
+### Release
 
 ```
 twine upload dist/*
 ```
 
-# Javascript / NPM
+## Javascript / NPM
 
-## Build
+### Build
 
 ```
 yarn run build
 ```
 
-## Release
+### Release
 
 ```
 npm publish
