@@ -5,15 +5,15 @@
  * Then ... cleaned up A LOT to get it to run properly.
  */
 
-const _LOOKBEHINDS = "((?<=^)|(?<=\\s)|(?<=[!.,;:?]))";
+const _FAKE_LOOKBEHINDS = "((^)|(\\s)|([!.,;:?]))";
 const _LOOKAHEADS = "(?=\\s|$|[!.,;:?])";
 
-const _STRONG = "\\*(" + "[^*]*" + ")\\*";
+const _STRONG = "\\*([^*]*)\\*";
 
 const _ITAL = "_(" + "[^_]*" + ")_";
 
-const STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS;
-const ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS;
+const STRONG_RE = _FAKE_LOOKBEHINDS + _STRONG + _LOOKAHEADS;
+const ITAL_RE = _FAKE_LOOKBEHINDS + _ITAL + _LOOKAHEADS;
 
 class ReAdapter {
   constructor(regex, string) {
@@ -25,6 +25,13 @@ class ReAdapter {
     if (!this._m) {
       return null;
     } else {
+      // _m[3] corresponds to (\s) in _FAKE_LOOKBEHINDS
+      // and _m[4] corresponds to ([!.,;:?]))
+      // if either matched, then we have an extra character in the full
+      // match (_m[0]) that we need to exclude.
+      if (this._m[3] || this._m[4]) {
+        return this._m.index + 1;
+      }
       return this._m.index;
     }
   }
@@ -33,7 +40,7 @@ class ReAdapter {
     if (!this._m) {
       return null;
     } else {
-      return this._m.index + this._m[0].length;
+      return this.start_index + this._m[0].length;
     }
   }
 
@@ -41,7 +48,7 @@ class ReAdapter {
     if (!this._m) {
       return null;
     } else {
-      return this._m[2];
+      return this._m[5];
     }
   }
 }
