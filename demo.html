@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dumbdown Demo</title>
+    <script src="node_modules/requirejs/require.js"></script>
+</head>
+<body>
+    <h1>Demo</h1>
+    <label for="input-dumbdown">
+        <textarea id="input-dumbdown" name="" id="" cols="30" rows="10"></textarea>
+    </label>
+    <pre id="output-dumbdown"></pre>
+    <script>
+require(['node_modules/dumbdown/lib/index'], function(dumbown) {
+    var textarea = document.getElementById("input-dumbdown");
+    var outputPreview = document.getElementById("output-dumbdown");
+    function handleChanged() {
+        var dd = textarea.value;
+        var html = dumbown.toHtml(dd);
+        outputPreview.innerHTML = html;
+    }
+    textarea.addEventListener("change", handleChanged);
+    textarea.addEventListener("input", handleChanged);
+});
+    </script>
+</body>
+</html>
