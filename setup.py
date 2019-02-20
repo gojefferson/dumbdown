@@ -8,12 +8,12 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="dumbdown",
-    version="1.0.3",
+    version="1.0.4",
     description="*Extremely* _simple_ markdown-ish format",
     long_description=README,
     long_description_content_type="text/markdown",
     python_requires=">= 3.7",
-    url="https://github.com/LAWPRCT/dumbdown",
+    url="https://github.com/gojefferson/dumbdown",
     author="Jeff Kerr",
     author_email="jeff@casefleet.com",
     license="MIT",

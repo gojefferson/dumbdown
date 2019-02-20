@@ -11,6 +11,18 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				"yarn-error.log",
+				"yarn.lock"
+			],
+			"folder_exclude_patterns":
+			[
+				"node_modules",
+				".idea",
+				".pytest_cache",
+				"dist",
+			],
 			"path": "."
 		}
 	]

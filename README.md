@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/LAWPRCT/dumbdown.svg?style=svg)](https://circleci.com/gh/LAWPRCT/dumbdown)
+[![CircleCI](https://circleci.com/gh/gojefferson/dumbdown.svg?style=svg)](https://circleci.com/gh/gojefferson/dumbdown)
 
 
 # dumbdown
