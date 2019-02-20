@@ -2,7 +2,7 @@
 
 
 # dumbdown
-Extremely simplified quasi-markdown to HTML parsing.
+Extremely simplified quasi-markdown to HTML parsing, available in both Javascript and Python.
 
 ## Installation
 
@@ -17,6 +17,10 @@ To install the npm package:
 ```
 npm install dumbdown
 ```
+
+# Demo
+
+To see the demo: clone this repo, install node modules from `package.json` and open `demo.html` in your favorite browser. Try typing some text with * and _ characters.
 
 
 ## Usage
