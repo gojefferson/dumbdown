@@ -3,7 +3,7 @@
     [
       "@babel/preset-env",
       {
-        "modules": "amd"
+        "modules": "umd"
       }
     ]
   ]
