@@ -1,6 +1,6 @@
 {
   "name": "dumbdown",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "description": "Really limited and simple bold and italics formatting",
   "main": "index.js",
@@ -10,6 +10,7 @@
     "test": "mocha --require @babel/register",
     "lint": "eslint ./*.js test"
   },
+  "browserslist": "> 0.25%, not dead",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.3",
