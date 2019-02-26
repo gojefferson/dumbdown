@@ -1,9 +1,9 @@
 {
   "name": "dumbdown",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "MIT",
   "description": "Really limited and simple bold and italics formatting",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "babel index.js -d lib --no-babelrc --config-file ./buildrc.json",
     "babel": "babel",
