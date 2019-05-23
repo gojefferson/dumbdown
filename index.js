@@ -15,6 +15,8 @@ const _ITAL = "_(" + "[^_]*" + ")_";
 const STRONG_RE = _FAKE_LOOKBEHINDS + _STRONG + _LOOKAHEADS;
 const ITAL_RE = _FAKE_LOOKBEHINDS + _ITAL + _LOOKAHEADS;
 
+const BLOCK_QUOTE_RE = "(^\\s*>)(.*)$";
+
 class ReAdapter {
   constructor(regex, string) {
     this._regex = new RegExp(regex);
@@ -176,6 +178,14 @@ class ParagraphNode extends ParentNode {
   }
 }
 
+class BlockQuoteNode extends ParentNode {
+  constructor() {
+    super(...arguments);
+    this.blockElement = true;
+    this.parentTag = "blockquote";
+  }
+}
+
 class Tree {
   constructor() {
     this.root = new Node();
@@ -199,10 +209,16 @@ class Parser {
   }
 
   _buildTree() {
-    let p;
+    let node;
+    let bqRe = new RegExp(BLOCK_QUOTE_RE);
     this._lines.forEach(line => {
-      p = new ParagraphNode(line);
-      this._tree.root.appendChild(p);
+      let match = bqRe.exec(line);
+      if (match) {
+        node = new BlockQuoteNode(match[2]);
+      } else {
+        node = new ParagraphNode(line);
+      }
+      this._tree.root.appendChild(node);
     });
   }
 

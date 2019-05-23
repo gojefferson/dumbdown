@@ -8,7 +8,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="dumbdown",
-    version="1.0.4",
+    version="1.0.5",
     description="*Extremely* _simple_ markdown-ish format",
     long_description=README,
     long_description_content_type="text/markdown",

@@ -25,6 +25,11 @@ _ITAL = r"_(" + r"[^_]*" + r")_"
 
 STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS
 ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS
+BLOCK_QUOTE_RE = (
+    r"(^\s*>)"  # start with or without whitespace
+    + r"(.*)"  # whatever comes after the blockquote
+    + r"$"  # end of string
+)
 
 
 class ReAdapter:
@@ -143,6 +148,12 @@ class StrongNode(ParentNode):
     parent_tag = "strong"
 
 
+class BlockQuoteNode(ParentNode):
+
+    block_element = True
+    parent_tag = "blockquote"
+
+
 class ParagraphNode(ParentNode):
 
     block_element = True
@@ -169,8 +180,13 @@ class Parser:
 
     def _build_tree(self) -> None:
         for line in self._lines:
-            p = ParagraphNode(content=line)
-            self._tree.root.append_child(p)
+            blockquote = ReAdapter(BLOCK_QUOTE_RE, line)
+            if blockquote.content:
+                b = BlockQuoteNode(content=blockquote.content)
+                self._tree.root.append_child(b)
+            else:
+                p = ParagraphNode(content=line)
+                self._tree.root.append_child(p)
 
     def to_plain(self) -> str:
         return self._tree.get_plain().strip()

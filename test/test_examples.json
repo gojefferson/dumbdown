@@ -88,5 +88,25 @@
         "md": "*_hans_*",
         "html": "<p><strong><i>hans</i></strong></p>",
         "plain": "hans"
+    },
+    {
+        "md": "This > is not correct block quote syntax",
+        "html": "<p>This > is not correct block quote syntax</p>",
+        "plain": "This > is not correct block quote syntax"
+    },
+    {
+        "md": "> This is a block quote",
+        "html": "<blockquote>This is a block quote</blockquote>",
+        "plain": "This is a block quote"
+    },
+    {
+        "md": "  >This, too is a block quote",
+        "html": "<blockquote>This, too is a block quote</blockquote>",
+        "plain": "This, too is a block quote"
+    },
+    {
+        "md": "  >This, _too is a *block*_ quote",
+        "html": "<blockquote>This, <i>too is a <strong>block</strong></i> quote</blockquote>",
+        "plain": "This, too is a block quote"
     }
 ]

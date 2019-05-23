@@ -24,7 +24,7 @@ To see the demo: clone this repo, install node modules from `package.json` and o
 
 
 ## Usage
-It allows 2 kinds of formatting marks, **bold** and *italic*, but it uses Slack's syntax for these and not Markdown syntax.
+It allows 3 kinds of formatting marks, **bold**, *italic*, and > blockquotes but it uses Slack's syntax for these and not Markdown syntax.
 
 Bold text must have `*` surrounding it:
 
@@ -40,6 +40,12 @@ And _this would be in italics_.
 Bold and italics can be nested within each other:
 ```
 *bold _bold-italics_*, _italics with some *bold* inside_. *_Nice!_*.
+```
+
+A blockquote is a line starting with `>`:
+```
+> this is a blockquote
+> woo
 ```
 
 ## Python API
