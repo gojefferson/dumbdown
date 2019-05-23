@@ -52,7 +52,7 @@ A blockquote is a line starting with `>`:
 
 The Python version provides two functions: `to_html` and `to_plain`.
 
-``` {.sourceCode .python}
+```py
 >>> from dumbdown import to_html, to_plain
 
 >>> to_html("*This is bold _this is bold ital._*\nThis is on a new line")
@@ -66,7 +66,7 @@ The Python version provides two functions: `to_html` and `to_plain`.
 
 The Javascript version provides two functions: `toHtml` and `toPlain`.
 
-``` {.sourceCode .javascript}
+```js
 >>> import { toHtml, toPlain } from "dumbdown";
 
 >>> toHtml("*This is bold _this is bold ital._*\nThis is on a new line");
