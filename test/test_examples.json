@@ -105,6 +105,11 @@
         "plain": "This, too is a block quote"
     },
     {
+        "md": "  &gt;This, too is a block quote",
+        "html": "<blockquote>This, too is a block quote</blockquote>",
+        "plain": "This, too is a block quote"
+    },
+    {
         "md": "  >This, _too is a *block*_ quote",
         "html": "<blockquote>This, <i>too is a <strong>block</strong></i> quote</blockquote>",
         "plain": "This, too is a block quote"

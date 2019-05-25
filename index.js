@@ -15,7 +15,7 @@ const _ITAL = "_(" + "[^_]*" + ")_";
 const STRONG_RE = _FAKE_LOOKBEHINDS + _STRONG + _LOOKAHEADS;
 const ITAL_RE = _FAKE_LOOKBEHINDS + _ITAL + _LOOKAHEADS;
 
-const BLOCK_QUOTE_RE = "(^\\s*>)(.*)$";
+const BLOCK_QUOTE_RE = "(^\\s*>|^\\s*&gt;)(.*)$";
 
 class ReAdapter {
   constructor(regex, string) {

@@ -26,7 +26,11 @@ _ITAL = r"_(" + r"[^_]*" + r")_"
 STRONG_RE = _LOOKBEHINDS + _STRONG + _LOOKAHEADS
 ITAL_RE = _LOOKBEHINDS + _ITAL + _LOOKAHEADS
 BLOCK_QUOTE_RE = (
-    r"(^\s*>)"  # start with or without whitespace
+    r"("
+    + r"^\s*>"  # normal invocation
+    + r"|"  #
+    + r"^\s*&gt;"  # html-escaped version
+    + r")"  # start with or without whitespace
     + r"(.*)"  # whatever comes after the blockquote
     + r"$"  # end of string
 )
