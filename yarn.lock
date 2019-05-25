@@ -1139,10 +1139,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-dumbdown@^1.0.5:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/dumbdown/-/dumbdown-1.0.6.tgz#38f14395ef90d4648b03aaa313f89584a3d6ccc3"
-  integrity sha512-YdLxynXz/OIqREpVgkXFfCEUrPPKtCpPqYCn3mhb3goiMGvcJHhvY7N1yPylluY14Ke2+AOuinKgv1d2z0OWrA==
+dumbdown@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/dumbdown/-/dumbdown-1.0.12.tgz#200d049811830c924670132ccefffd9bfbfef072"
+  integrity sha512-qPq3QjjWT5QPab5l8rJjc9clfZ6hCwggtj+aWVgVwsi+G+oW+0RdWDOIyPG1QdMKP8GoeHychmrFHxW4B4CA3A==
 
 electron-to-chromium@^1.3.133:
   version "1.3.137"
