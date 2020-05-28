@@ -1,7 +1,6 @@
 version: 2
 jobs:
   js-test:
-    # resource_class: medium+
     docker:
       - image: circleci/node:10.0-browsers
     steps:
@@ -31,7 +30,6 @@ jobs:
             yarn run test
 
   python-test:
-    resource_class: medium+
     docker:
       - image: circleci/python:3.7.0-node-browsers
         environment:
