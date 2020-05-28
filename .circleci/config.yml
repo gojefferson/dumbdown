@@ -1,7 +1,7 @@
 version: 2
 jobs:
   js-test:
-    resource_class: medium+
+    # resource_class: medium+
     docker:
       - image: circleci/node:10.0-browsers
     steps:
