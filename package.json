@@ -5,8 +5,7 @@
   "description": "Really limited and simple bold, italics, and blockquote formatting",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel index.js -d lib --no-babelrc --config-file ./buildrc.json",
-    "babel": "babel",
+    "build": "tsc index.ts --outFile lib/index.js",
     "test": "mocha --require @babel/register",
     "lint": "eslint ./*.js test"
   },
@@ -23,6 +22,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "mocha": "^5.2.0",
     "prettier": "^1.16.4",
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "typescript": "^3.9.3"
   }
 }
