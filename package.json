@@ -5,7 +5,7 @@
   "description": "Really limited and simple bold, italics, and blockquote formatting",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc index.ts --outFile lib/index.js",
+    "build": "tsc index.ts -t es6 && babel index.js -d lib --no-babelrc --config-file ./buildrc.json",
     "test": "mocha --require @babel/register",
     "lint": "eslint ./*.js test"
   },

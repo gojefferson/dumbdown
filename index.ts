@@ -18,7 +18,10 @@ const ITAL_RE = _FAKE_LOOKBEHINDS + _ITAL + _LOOKAHEADS;
 const BLOCK_QUOTE_RE = "(^\\s*>|^\\s*&gt;)(.*)$";
 
 class ReAdapter {
-  constructor(regex, string) {
+  _regex: RegExp;
+  _m: RegExpExecArray
+
+  constructor(regex: string, string: string) {
     this._regex = new RegExp(regex);
     this._m = this._regex.exec(string);
   }
@@ -84,8 +87,12 @@ function extract_first_node(input_string) {
 }
 
 class Node {
+  content: string;
+  is_leaf_node: boolean;
+  children: any[];
+
   constructor(content = "") {
-    let node;
+    let node: Node;
     this.children = [];
     this.is_leaf_node = false;
     if (!this.is_leaf_node) {
@@ -96,7 +103,7 @@ class Node {
     }
   }
 
-  appendChild(node) {
+  appendChild(node: Node) {
     this.children.push(node);
   }
 
@@ -114,6 +121,7 @@ class Node {
 }
 
 class TextNode {
+  content: string;
   constructor(content = "") {
     this.content = content;
   }
@@ -128,13 +136,15 @@ class TextNode {
 }
 
 class ParentNode extends Node {
-  constructor() {
-    super(...arguments);
+  parentTag?: string;
+  blockElement: boolean;
+  constructor(content: string) {
+    super(content);
     this.parentTag = null;
     this.blockElement = false;
   }
 
-  getPlain() {
+  getPlain(): string {
     let childContents = this.children.reduce((accum, child) => {
       return accum + child.getPlain();
     }, "");
@@ -144,7 +154,7 @@ class ParentNode extends Node {
     return childContents.trim();
   }
 
-  getHtml() {
+  getHtml(): string {
     let childContents = this.children.reduce((accum, child) => {
       return accum + child.getHtml();
     }, "");
@@ -157,36 +167,37 @@ class ParentNode extends Node {
 }
 
 class ItalNode extends ParentNode {
-  constructor() {
-    super(...arguments);
+  constructor(content: string) {
+    super(content);
     this.parentTag = "i";
   }
 }
 
 class StrongNode extends ParentNode {
-  constructor() {
-    super(...arguments);
+  constructor(content: string) {
+    super(content);
     this.parentTag = "strong";
   }
 }
 
 class ParagraphNode extends ParentNode {
-  constructor() {
-    super(...arguments);
+  constructor(content: string) {
+    super(content);
     this.blockElement = true;
     this.parentTag = "p";
   }
 }
 
 class BlockQuoteNode extends ParentNode {
-  constructor() {
-    super(...arguments);
+  constructor(content: string) {
+    super(content);
     this.blockElement = true;
     this.parentTag = "blockquote";
   }
 }
 
 class Tree {
+  root: Node;
   constructor() {
     this.root = new Node();
   }
@@ -201,6 +212,10 @@ class Tree {
 }
 
 class Parser {
+  _md: string;
+  _tree: Tree;
+  _lines: string[];
+
   constructor(md = "") {
     this._md = md.trim();
     this._tree = new Tree();
