@@ -19,7 +19,7 @@ const BLOCK_QUOTE_RE = "(^\\s*>|^\\s*&gt;)(.*)$";
 
 class ReAdapter {
   _regex: RegExp;
-  _m: RegExpExecArray
+  _m: RegExpExecArray | null;
 
   constructor(regex: string, string: string) {
     this._regex = new RegExp(regex);
@@ -45,7 +45,7 @@ class ReAdapter {
     if (!this._m) {
       return null;
     } else {
-      return this.start_index + this._m[0].length;
+      return this.start_index! + this._m[0].length;
     }
   }
 
@@ -58,36 +58,41 @@ class ReAdapter {
   }
 }
 
-function extract_first_node(input_string) {
-  let _max, ital, split_point, strong;
-  strong = new ReAdapter(STRONG_RE, input_string);
-  ital = new ReAdapter(ITAL_RE, input_string);
+function extract_first_node(inputString: string): [Node, string] {
+  const strong: ReAdapter = new ReAdapter(STRONG_RE, inputString);
+  const ital: ReAdapter = new ReAdapter(ITAL_RE, inputString);
 
   if (strong.start_index === 0) {
     return [
-      new StrongNode(strong.content),
-      input_string.slice(strong.end_index)
+      new StrongNode(strong.content!),
+      inputString.slice(strong.end_index!)
     ];
   }
 
   if (ital.start_index === 0) {
-    return [new ItalNode(ital.content), input_string.slice(ital.end_index)];
+    return [new ItalNode(ital.content!), inputString.slice(ital.end_index!)];
   }
 
   if (!strong.start_index && !ital.start_index) {
-    return [new TextNode(input_string), ""];
+    return [new TextNode(inputString), ""];
   }
 
-  _max = input_string.length;
-  split_point = Math.min(strong.start_index || _max, ital.start_index || _max);
+  const _max: number = inputString.length;
+  const split_point: number = Math.min(strong.start_index || _max, ital.start_index || _max);
   return [
-    new TextNode(input_string.slice(0, split_point)),
-    input_string.slice(split_point)
+    new TextNode(inputString.slice(0, split_point)),
+    inputString.slice(split_point)
   ];
 }
 
-class Node {
+interface Node {
   content: string;
+  getPlain: () => string;
+  getHtml: () => string;
+}
+
+class BaseNode implements Node {
+  content: string = "";
   is_leaf_node: boolean;
   children: any[];
 
@@ -120,7 +125,7 @@ class Node {
   }
 }
 
-class TextNode {
+class TextNode implements Node {
   content: string;
   constructor(content = "") {
     this.content = content;
@@ -135,12 +140,12 @@ class TextNode {
   }
 }
 
-class ParentNode extends Node {
+class ParentNode extends BaseNode {
   parentTag?: string;
   blockElement: boolean;
   constructor(content: string) {
     super(content);
-    this.parentTag = null;
+    this.parentTag = undefined;
     this.blockElement = false;
   }
 
@@ -197,9 +202,9 @@ class BlockQuoteNode extends ParentNode {
 }
 
 class Tree {
-  root: Node;
+  root: BaseNode;
   constructor() {
-    this.root = new Node();
+    this.root = new BaseNode();
   }
 
   getHtml() {
@@ -246,10 +251,23 @@ class Parser {
   }
 }
 
+/**
+ * Parse a dumbdown-formatted string and receive back valid HTML with:
+ * - line breaks starting new <p> tags
+ * - text surrounded by _ characters surrounded by <i>
+ * - text surrounded by * characters surrounded by <strong>
+ * - lines starting with > starting <blockquote> tags
+ * @param md the string you wish to parse.
+ */
 export function toHtml(md = "") {
   return new Parser(md).toHtml();
 }
 
+/**
+ * Parse a dumbdown formatted string and get back plain text with formatting
+ * marks removed.
+ * @param md the dumbdown-formatted string
+ */
 export function toPlain(md = "") {
   return new Parser(md).toPlain();
 }
