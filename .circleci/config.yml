@@ -20,10 +20,10 @@ jobs:
           key: cf-dd-{{ checksum "yarn.lock" }}
           paths:
             - "~/.cache"
-      - run:
-          name: lint
-          command: |
-            yarn run lint
+      # - run:
+      #     name: lint
+      #     command: |
+      #       yarn run lint
       - run:
           name: mocha tests
           command: |
