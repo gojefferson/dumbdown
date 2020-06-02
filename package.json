@@ -1,14 +1,13 @@
 {
   "name": "dumbdown",
-  "version": "1.0.12",
+  "version": "1.1.0",
   "license": "MIT",
   "description": "Really limited and simple bold, italics, and blockquote formatting",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel index.js -d lib --no-babelrc --config-file ./buildrc.json",
-    "babel": "babel",
+    "build": "tsc && babel lib/index.js -d lib --no-babelrc --config-file ./buildrc.json",
     "test": "mocha --require @babel/register",
-    "lint": "eslint ./*.js test"
+    "lint": "eslint ./src/*.ts test"
   },
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {
@@ -16,13 +15,20 @@
     "@babel/core": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
     "@babel/register": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
     "babel-eslint": "^10.0.1",
-    "dumbdown": "^1.0.5",
-    "eslint": "^5.14.0",
-    "eslint-config-prettier": "^4.0.0",
-    "eslint-plugin-prettier": "^3.0.1",
+    "dumbdown": "^1.0.12",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
     "mocha": "^5.2.0",
-    "prettier": "^1.16.4",
-    "requirejs": "^2.3.6"
-  }
+    "prettier": "^2.0.5",
+    "requirejs": "^2.3.6",
+    "typescript": "^3.9.3"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "types": "lib/index.d.ts"
 }

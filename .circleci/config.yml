@@ -1,9 +1,8 @@
 version: 2
 jobs:
   js-test:
-    resource_class: medium+
     docker:
-      - image: circleci/node:10.0-browsers
+      - image: circleci/node:10.13-browsers
     steps:
       - checkout
       - run:
@@ -11,27 +10,28 @@ jobs:
           command: |
             sudo npm install -g npm@latest
       - restore_cache:
-          key: cf-v4-{{ checksum "yarn.lock" }}
+          key: cf-dd-{{ checksum "yarn.lock" }}
       - run:
           name: Install node dependencies
           command: |
-            sudo npm install -g yarn
+            sudo npm install -g yarn --force
             yarn
       - save_cache:
-          key: cf-v4-{{ checksum "yarn.lock" }}
+          key: cf-dd-{{ checksum "yarn.lock" }}
           paths:
             - "~/.cache"
+      # - run:
+      #     name: lint
+      #     command: |
+      #       yarn run lint
       - run:
-          name: lint
-          command: |
-            yarn run lint
+          name: build
+          command: yarn run build
       - run:
           name: mocha tests
           command: |
             yarn run test
-
   python-test:
-    resource_class: medium+
     docker:
       - image: circleci/python:3.7.0-node-browsers
         environment:
@@ -46,7 +46,7 @@ jobs:
             sudo pip install pipenv
             pipenv sync -d
       - save_cache:
-          key: cf-v4-{{ checksum "Pipfile.lock" }}
+          key: cf-dd-{{ checksum "Pipfile.lock" }}
           paths:
             - "~/.venv"
             - "/usr/local/bin"
@@ -64,7 +64,6 @@ jobs:
           name: run tests
           command: |
             pipenv run pytest
-
 workflows:
   version: 2
   build-and-test:

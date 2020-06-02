@@ -1,4 +1,4 @@
-import { toHtml, toPlain } from "..";
+import { toHtml, toPlain } from "../lib";
 import assert from "assert";
 import fs from "fs";
 
