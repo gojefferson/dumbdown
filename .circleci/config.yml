@@ -33,37 +33,28 @@ jobs:
             yarn run test
   python-test:
     docker:
-      - image: circleci/python:3.7.0-node-browsers
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
+      - image: cimg/python:3.10
     steps:
       - checkout
-      - restore_cache:
-          key: cf-v3-{{ checksum "Pipfile.lock" }}
       - run:
           name: Install python dependencies
           command: |
-            sudo pip install pipenv
-            pipenv sync -d
-      - save_cache:
-          key: cf-dd-{{ checksum "Pipfile.lock" }}
-          paths:
-            - "~/.venv"
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.7/site-packages"
-            - "~/.cache"
+            curl -sSL https://install.python-poetry.org | python3 -
+            poetry export --dev --without-hashes -f requirements.txt -o requirements.txt
+            pip install --no-cache-dir -r requirements.txt --progress-bar off
       - run:
           name: run flake8
           command: |
-            pipenv run flake8 . --exclude=".venv/"
+            flake8 . --exclude=".venv/"
       - run:
           name: run isort
           command: |
-            pipenv run isort --check-only --diff --recursive --virtual-env ./.venv . --skip-glob=".venv"
+            isort --check-only --diff --recursive --virtual-env ./.venv . --skip-glob=".venv"
       - run:
           name: run tests
           command: |
-            pipenv run pytest
+            pytest
+
 workflows:
   version: 2
   build-and-test:
