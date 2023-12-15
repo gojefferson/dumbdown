@@ -2,7 +2,7 @@ version: 2
 jobs:
   js-test:
     docker:
-      - image: circleci/node:10.13-browsers
+      - image: cimg/node:21.4.0
     steps:
       - checkout
       - run:
@@ -10,14 +10,14 @@ jobs:
           command: |
             sudo npm install -g npm@latest
       - restore_cache:
-          key: cf-dd-{{ checksum "yarn.lock" }}
+          key: cf-dd1-{{ checksum "yarn.lock" }}
       - run:
           name: Install node dependencies
           command: |
             sudo npm install -g yarn --force
             yarn
       - save_cache:
-          key: cf-dd-{{ checksum "yarn.lock" }}
+          key: cf-dd1-{{ checksum "yarn.lock" }}
           paths:
             - "~/.cache"
       # - run:
